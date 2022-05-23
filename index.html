@@ -5,8 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Image based tracking AR.js demo</title>
   <!-- import aframe and then ar.js with image tracking / location based features -->
-  <script src="js/aframe.min.js"></script>
+  <script src="./js/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script>
   <script src="./js/ar-logic.js"></script>
 
   <!-- style for the loader -->
@@ -33,28 +34,29 @@
 </head>
 
 <body style="margin : 0px; overflow: hidden;">
+
   <!-- minimal loader shown until image descriptors are loaded. Loading may take a while according to the device computational power -->
   <div class="arjs-loader">
     <div>Loading, please wait...</div>
   </div>
 
   <!-- vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded
-  arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" -->
+    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" -->
 
   <!-- a-frame scene -->
   <!--Version 14-->
   <a-scene vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded
-    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
+  arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
 
     <!-- a-nft is the anchor that defines an Image Tracking entity -->
     <!-- on 'url' use the path to the Image Descriptors created before. -->
     <!-- the path should end with the name without the extension e.g. if file is trex.fset' the path should end with trex -->
 
-    <a-assets>
-      <video id="penguin-sledding" autoplay loop="true" src="/videos/videoTest.mp4"></video>
-    </a-assets>
-
     <!-- Using the asset management system. -->
+    <a-assets>
+      <video id="penguin-sledding" loop="true" src="/videos/videoTest.mp4"></video>
+      <img id="imageLink" src="/images/pandaTest.jpg">
+    </a-assets>
 
     <!-- <a-nft type="nft" url="/nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
       <a-entity
@@ -65,11 +67,6 @@
           </a-entity>
     </a-nft> -->
 
-    <a-nft type="nft" url="/nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-      <a-video id="penguin-sledding" src="#penguin-sledding" width="16" height="9" position="0 0 0" scale="10 10 1" rotation="-90 0 0" class="video">
-      </a-video>
-    </a-nft>
-
     <!-- <a-nft type="nft" url="/nfts/coinsTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
       <a-entity
           gltf-model="/models/Coins.glb"
@@ -79,37 +76,72 @@
           </a-entity>
     </a-nft> -->
 
+    <!-- VIDEO -->
     <!-- <a-nft type="nft" url="/nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-      <a-image src="images/pandaTest.jpg" width="100" height="100" 
-          position="50 0 50"></a-image>
+      <a-video id="penguin-sledding" src="#penguin-sledding" width="16" height="9" position="0 0 0" scale="10 10 1" rotation="-90 0 0" class="video">
+      </a-video>
     </a-nft> -->
 
-    <!-- <a-box position="1.5 0 -5" scale="1 1 1" color="red"></a-box> -->
-    <!-- static camera that moves according to the device movemenents -->
-    <a-entity camera></a-entity>
+    <!-- IMAGE -->
+    <a-nft type="nft" url="/nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
+      <a-image src="images/pandaTest.jpg" width="100" height="100" position="0 0 0" rotation="-90 0 0" id="boxTest"></a-image>
+    </a-nft>
+
+    <!-- <a-entity id="player" collider-check>
+      <a-entity raycaster="objects: .collidable" position="0 -0.9 0" rotation="90 0 0"></a-entity>
+    </a-entity> -->
+
+    <a-entity id="camera" camera="userHeight: 1.6" look-controls cursor="rayOrigin: mouse"></a-entity>
+
+    <!-- <a-nft type="nft" url="/nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
+      <a-image src="images/pandaTest.jpg" width="10" height="10" position="0 0 0" rotation="0 0 0" id="boxTest"></a-image>
+    </a-nft> -->
+
+    <!-- <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" shadow id="boxTest">
+      </a-box> -->
+    
+      <!-- event-set__enter="_event: click; test"
+      event-set__leave="_event: mouseleave; color: #4CC3D9" -->
+
+    <!-- <a-entity camera></a-entity> -->
+
+
+    <!-- <a-entity camera look-controls>
+      <a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1"
+        geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="color: black; shader: flat">
+      </a-entity>
+    </a-entity> -->
   </a-scene>
 
   <script>
-    // window.addEventListener('click', function () {
-    //   var v = document.getElementById('test');
-    //   v.play();
+    document.addEventListener('markerFound', (e) => {
+      let target = e.target.children[0];
+      if (target.className == "video") {
+        document.getElementById(target.id).play();
+      }
+    });
+
+    document.addEventListener('markerLost', (e) => {
+      let target = e.target.children[0];
+      if (target.className == "video") {
+        document.getElementById(target.id).pause();
+      }
+    });
+
+    document.getElementById("boxTest").addEventListener("click", ()=>{
+      console.log("tetete");      
+    })
+
+    // AFRAME.registerComponent('cursor-listener', {
+    //   init: function () {
+    //     this.el.addEventListener('mousedown', function (evt) {
+    //       console.log('I was clicked at: ', evt.detail.intersection.point);
+    //     });
+    //   }
     // });
 
-    document.addEventListener('markerFound', (e) => {
-      let target = e.target.children[0]; 
-      if(target.className == "video"){
-          document.getElementById(target.id).play();
-      }
-    });
-    
-    document.addEventListener('markerLost', (e) => {
-      let target = e.target.children[0]; 
-      if(target.className == "video"){
-          document.getElementById(target.id).pause();
-      }
-    });
-
   </script>
+
 </body>
 
 </html>
