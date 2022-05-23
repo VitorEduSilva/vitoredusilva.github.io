@@ -44,7 +44,7 @@
     arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" -->
 
   <!-- a-frame scene -->
-  <!--Version 14-->
+  <!--Version 15-->
   <a-scene vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded
   arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
 
@@ -129,7 +129,8 @@
     });
 
     document.getElementById("boxTest").addEventListener("click", ()=>{
-      console.log("tetete");      
+        console.log("abrir google");
+        window.open("https://www.google.com/", '_blank').focus();      
     })
 
     // AFRAME.registerComponent('cursor-listener', {
