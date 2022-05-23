@@ -42,7 +42,7 @@
   arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" -->
 
   <!-- a-frame scene -->
-  <!--Version 10-->
+  <!--Version 11-->
   <a-scene vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded
   arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
 
@@ -51,7 +51,7 @@
     <!-- the path should end with the name without the extension e.g. if file is trex.fset' the path should end with trex -->
     
     <a-assets>
-      <video id="penguin-sledding" autoplay="true" muted="true" loop="true" src="/videos/Tutorial.mp4"></video>
+      <video id="penguin-sledding" autoplay muted="true" loop="true" src="/videos/Tutorial.mp4"></video>
     </a-assets>
   
     <!-- Using the asset management system. -->
@@ -88,6 +88,12 @@
     <a-entity camera></a-entity>
   </a-scene>
 
+  <script>
+    window.addEventListener('click', function () {
+    var v = document.querySelector('#penguin-sledding');
+    v.play();
+    });
+  </script>
 </body>
 
 </html>
