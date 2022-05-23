@@ -44,18 +44,18 @@
   <!-- a-frame scene -->
   <!--Version 14-->
   <a-scene vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded
-  arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
+    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
 
     <!-- a-nft is the anchor that defines an Image Tracking entity -->
     <!-- on 'url' use the path to the Image Descriptors created before. -->
     <!-- the path should end with the name without the extension e.g. if file is trex.fset' the path should end with trex -->
-    
+
     <a-assets>
       <video id="penguin-sledding" autoplay loop="true" src="/videos/videoTest.mp4"></video>
     </a-assets>
-  
+
     <!-- Using the asset management system. -->
-    
+
     <!-- <a-nft type="nft" url="/nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
       <a-entity
           gltf-model="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
@@ -64,9 +64,10 @@
           >
           </a-entity>
     </a-nft> -->
-    
+
     <a-nft type="nft" url="/nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-      <a-video src="#penguin-sledding" width="16" height="9" position="0 0 0" scale="10 10 1" rotation="-90 0 0"></a-video>
+      <a-video id="penguin-sledding" src="#penguin-sledding" width="16" height="9" position="0 0 0" scale="10 10 1" rotation="-90 0 0" class="video">
+      </a-video>
     </a-nft>
 
     <!-- <a-nft type="nft" url="/nfts/coinsTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
@@ -89,10 +90,25 @@
   </a-scene>
 
   <script>
-    window.addEventListener('click', function () {
-    var v = document.querySelector('#penguin-sledding');
-    v.play();
+    // window.addEventListener('click', function () {
+    //   var v = document.getElementById('test');
+    //   v.play();
+    // });
+
+    document.addEventListener('markerFound', (e) => {
+      let target = e.target.children[0]; 
+      if(target.className == "video"){
+          document.getElementById(target.id).play();
+      }
     });
+    
+    document.addEventListener('markerLost', (e) => {
+      let target = e.target.children[0]; 
+      if(target.className == "video"){
+          document.getElementById(target.id).pause();
+      }
+    });
+
   </script>
 </body>
 
