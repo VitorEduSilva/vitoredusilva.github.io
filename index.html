@@ -7,8 +7,11 @@
   <!-- import aframe and then ar.js with image tracking / location based features -->
   <script src="./js/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-  <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.3.0/dist/aframe-environment-component.min.js"></script>
+  <script src="./js/aframe-event-set-component.min.js"></script>
   <script src="./js/ar-logic.js"></script>
+  <script src="/src/info-panel.js"></script>
+  <script src="/src/main.js"></script>
 
   <!-- style for the loader -->
   <style>
@@ -40,13 +43,10 @@
     <div>Loading, please wait...</div>
   </div>
 
-  <!-- vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded
-    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" -->
-
-  <!-- a-frame scene -->
   <!--Version 15-->
   <a-scene vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded
-  arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
+  arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+  cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .raycastable">
 
     <!-- a-nft is the anchor that defines an Image Tracking entity -->
     <!-- on 'url' use the path to the Image Descriptors created before. -->
@@ -56,8 +56,72 @@
     <a-assets>
       <video id="penguin-sledding" loop="true" src="/videos/videoTest.mp4"></video>
       <img id="imageLink" src="/images/pandaTest.jpg">
+      <img id="karigurashi" src="https://cdn.aframe.io/examples/ui/karigurashi.jpg" crossorigin="anonymous"/>
+        <img id="karigurashiPoster" src="https://cdn.aframe.io/examples/ui/karigurashiPoster.jpg" crossorigin="anonymous"/>
+        <a-mixin
+          id="frame"
+          geometry="primitive: plane; width: 0.5783552; height: 0.8192"
+          material="color: white; shader: flat"
+          animation__scale="property: scale; to: 1.2 1.2 1.2; dur: 200; startEvents: mouseenter"
+          animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"
+         ></a-mixin>
+         <a-mixin
+          id="poster"
+          geometry="primitive: plane; width: 0.544768; height: 0.786432"
+          material="color: white; shader: flat"
+          material="shader: flat"
+          position="0 0 0.005"
+         ></a-mixin>
+         <a-mixin
+          id="movieImage"
+          geometry="primitive: plane; width: 1.5; height: 0.81"
+          material="src: #ponyo; shader: flat; transparent: true"
+          position="0 0.495 0.002"
+         ></a-mixin>
     </a-assets>
 
+    <a-entity id="camera" camera="userHeight: 1.6" look-controls="touchEnabled: false; mouseEnabled: false"></a-entity>
+
+    <a-entity id="ui" position="0 0 -5">
+      <!-- Poster menu -->
+      <a-entity id="menu" highlight>
+        <a-entity id="karigurashiButton" position="0 0 0" mixin="frame" class="raycastable menu-button">
+          <a-entity material="src: #karigurashiPoster;" mixin="poster"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity
+        id="infoPanel"
+        position="0 0 0.1"
+        info-panel
+        visible="false"
+        scale="0.001 0.001 0.001"
+        geometry="primitive: plane; width: 1.5; height: 1.8"
+        material="color: #333333; shader: flat; transparent: false" class="raycastable">
+        <a-text value="Hello, World!"></a-text>
+        <a-entity id="karigurashiMovieImage" mixin="movieImage" material="src: #karigurashi" visible="false"></a-entity>
+        <a-entity id="movieTitle"
+          position="-0.68 -0.1 0"
+          text="shader: msdf; anchor: left; width: 1.5; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Ponyo (2003)"></a-entity>
+        <a-entity id="movieDescription"
+          position="-0.68 -0.2 0"
+          text="baseline: top; shader: msdf; anchor: left; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."></a-entity>
+      </a-entity>
+    </a-entity>
+
+    <!-- IMAGE LINK -->
+    <a-nft type="nft" url="/nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
+      <a-image src="images/pandaTest.jpg" width="100" height="100" position="0 0 0" rotation="-90 0 0" id="boxTest" class="link"></a-image>
+    </a-nft>
+
+  </a-scene>
+
+</body>
+
+</html>
+
+<!-- #region Ready-->
+  <!-- MARKER DINO -->
     <!-- <a-nft type="nft" url="/nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
       <a-entity
           gltf-model="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
@@ -67,6 +131,7 @@
           </a-entity>
     </a-nft> -->
 
+    <!-- MARKER COINS -->
     <!-- <a-nft type="nft" url="/nfts/coinsTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
       <a-entity
           gltf-model="/models/Coins.glb"
@@ -87,56 +152,4 @@
       <a-image src="images/pandaTest.jpg" width="100" height="100" position="0 0 0" rotation="-90 0 0"></a-image>
     </a-nft> -->
 
-    <!-- IMAGE LINK -->
-    <a-nft type="nft" url="/nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-      <a-image src="images/pandaTest.jpg" width="100" height="100" position="0 0 0" rotation="-90 0 0" id="boxTest"></a-image>
-    </a-nft>
-
-    <!-- <a-entity id="player" collider-check>
-      <a-entity raycaster="objects: .collidable" position="0 -0.9 0" rotation="90 0 0"></a-entity>
-    </a-entity> -->
-
-    <a-entity id="camera" camera="userHeight: 1.6" look-controls cursor="rayOrigin: mouse"></a-entity>
-
-    <!-- <a-entity camera></a-entity> -->
-
-    <!-- <a-entity camera look-controls>
-      <a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1"
-        geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="color: black; shader: flat">
-      </a-entity>
-    </a-entity> -->
-  </a-scene>
-
-  <script>
-    document.addEventListener('markerFound', (e) => {
-      let target = e.target.children[0];
-      if (target.className == "video") {
-        document.getElementById(target.id).play();
-      }
-    });
-
-    document.addEventListener('markerLost', (e) => {
-      let target = e.target.children[0];
-      if (target.className == "video") {
-        document.getElementById(target.id).pause();
-      }
-    });
-
-    document.getElementById("boxTest").addEventListener("click", ()=>{
-        console.log("abrir google");
-        window.open("https://www.google.com/", '_blank').focus();      
-    })
-
-    // AFRAME.registerComponent('cursor-listener', {
-    //   init: function () {
-    //     this.el.addEventListener('mousedown', function (evt) {
-    //       console.log('I was clicked at: ', evt.detail.intersection.point);
-    //     });
-    //   }
-    // });
-
-  </script>
-
-</body>
-
-</html>
+<!-- #endregion -->
