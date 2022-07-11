@@ -66,9 +66,9 @@ document.addEventListener('markerFound', (e) => {
     if (target.className == "video") {
         document.getElementById(target.id).play();
     }
-    if (target.className == "link") {
-        document.getElementById(target.id).addEventListener("click", openLink);
-    }
+    // if (target.className == "link") {
+    //     document.getElementById(target.id).addEventListener("click", openLink);
+    // }
 });
 
 document.addEventListener('markerLost', (e) => {
@@ -76,9 +76,9 @@ document.addEventListener('markerLost', (e) => {
     if (target.className == "video") {
         document.getElementById(target.id).pause();
     }
-    if (target.className == "link") {
-        document.getElementById(target.id).removeEventListener("click", openLink);
-    }
+    // if (target.className == "link") {
+    //     document.getElementById(target.id).removeEventListener("click", openLink);
+    // }
 });
 
 function openLink() {
