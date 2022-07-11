@@ -1,155 +1,88 @@
 <html>
 
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>WebXR Test</title>
-    <!-- import aframe and then ar.js with image tracking / location based features -->
-    <script src="./js/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-    <script src="https://unpkg.com/aframe-environment-component@1.3.0/dist/aframe-environment-component.min.js"></script>
-    <script src="./js/aframe-event-set-component.min.js"></script>
-    <script src="./js/ar-logic.js"></script>
-    <script src="/src/info-panel.js"></script>
-    <script src="/src/main.js"></script>
-  
-    <!-- style for the loader -->
-    <style>
-      .arjs-loader {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.8);
-        z-index: 9999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-  
-      .arjs-loader div {
-        text-align: center;
-        font-size: 1.25em;
-        color: white;
-      }
-    </style>
-  </head>
-  
-  <body style="margin : 0px; overflow: hidden;">
-  
-    <!-- minimal loader shown until image descriptors are loaded. Loading may take a while according to the device computational power -->
-    <div class="arjs-loader">
-      <div>Loading, please wait...</div>
-    </div>
-  
-    <!--Version 15-->
-    <a-scene vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded
-    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-    cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .raycastable">
-  
-      <!-- a-nft is the anchor that defines an Image Tracking entity -->
-      <!-- on 'url' use the path to the Image Descriptors created before. -->
-      <!-- the path should end with the name without the extension e.g. if file is trex.fset' the path should end with trex -->
-  
-      <!-- Using the asset management system. -->
-      <a-assets>
-        <video id="penguin-sledding" loop="true" src="/videos/videoTest.mp4"></video>
-        <img id="imageLink" src="/images/pandaTest.jpg">
-        <!-- <img id="karigurashi" src="https://cdn.aframe.io/examples/ui/karigurashi.jpg" crossorigin="anonymous"/>
-          <img id="karigurashiPoster" src="https://cdn.aframe.io/examples/ui/karigurashiPoster.jpg" crossorigin="anonymous"/>
-          <a-mixin
-            id="frame"
-            geometry="primitive: plane; width: 0.5783552; height: 0.8192"
-            material="color: white; shader: flat"
-            animation__scale="property: scale; to: 1.2 1.2 1.2; dur: 200; startEvents: mouseenter"
-            animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"
-           ></a-mixin>
-           <a-mixin
-            id="poster"
-            geometry="primitive: plane; width: 0.544768; height: 0.786432"
-            material="color: white; shader: flat"
-            material="shader: flat"
-            position="0 0 0.005"
-           ></a-mixin>
-           <a-mixin
-            id="movieImage"
-            geometry="primitive: plane; width: 1.5; height: 0.81"
-            material="src: #ponyo; shader: flat; transparent: true"
-            position="0 0.495 0.002"
-           ></a-mixin> -->
-      </a-assets>
-  
-      <a-entity id="camera" camera="userHeight: 1.6" look-controls="touchEnabled: true; mouseEnabled: false"></a-entity>
+<head>
+  <!-- <script>
+    // WebXR requires https: to work so ensure redirected if needed.
+    if (location.hostname !== 'localhost' && window.location.protocol === 'http:') window.location.protocol = 'https:';
+  </script> -->
+  <!-- the AFrame library -->
+	<script src="/js/aframe.min.js"></script>
+  <!-- this shadow helper ensures that the model has a shadow beneath it -->
+  <script src="/src/ar-shadow-helper.js"></script>
+  <script src="/src/ar-cursor.js"></script>
+	<script src="/src/main.js"></script>
+  <style>
+		body {
+			font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+		}
+    
+    #dom-overlay-message {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      padding: 1em;
+      background: #33333355;
+      border-top: 5px solid #ffffff55;
+      color: white;
+    }
 
-       <!-- MARKER DINO -->
-      <a-nft type="nft" url="/nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-        <a-entity
-            gltf-model="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
-                scale="3 3 3"
-                position="100 100 -50"
-            >
-            </a-entity>
-      </a-nft>
+    .a-dom-overlay button {
+      padding: 1em;
+      appearance: none;
+      background: #00000055;
+      border: 3px solid white;
+      border-radius: 1em;
+      margin: 1em 1em 0 0;
+      color: white;
+    }
+  </style>  
+</head>
+
+<body>
+	<a-scene
+		webxr="overlayElement:#dom-overlay;"
+		background="color:skyblue;"
+		reflection="directionalLight:#dirlight;"
+		ar-hit-test="target:#my-objects;type:footprint;footprintDepth:0.2;"
+		shadow="type: pcfsoft"
+		gltf-model="dracoDecoderPath: https://cdn.jsdelivr.net/npm/three@0.129.0/examples/js/libs/draco/gltf/;"
+    ar-cursor raycaster="objects: #my-objects *"
+	>
+    <a-assets>
+      <a-asset-item id="spino" src="https://rawcdn.githack.com/krlosflip22/aframe-ar-sample/c91a7a9dd8b1428bc8e68bc1b5d8641d7241fd1b/spinosaurus.glb"></a-asset-item>
+    </a-assets>
+		<a-camera position="0 0.4 1"></a-camera>
+
+		<a-light id="dirlight" auto-shadow-cam intensity="0.7" light="castShadow:true;type:directional" position="10 10 10"></a-light>
+		<a-light hide-on-enter-ar intensity="0.3" light="type:hemisphere;color:yellow;groundColor:blue;" position="10 10 10"></a-light>
+
+		<a-entity hide-on-enter-ar environment="lighting:none;shadow:true;"></a-entity>
+
+    <!-- This plane is only visible in AR and follows the given target to provide it with shadows.-->
+    <a-entity
+      material="shader:shadow; depthWrite:false; opacity:0.9;"
+      visible="false"
+      geometry="primitive:shadow-plane;"
+      shadow="cast:false;receive:true;"
+      ar-shadow-helper="target:#my-objects;light:#dirlight;"
+    >
+    </a-entity>
+    
+    <!-- This is hidden when the user first enters ar but becomes visible when the user can place it -->
+    <a-entity hide-on-hit-test-start shadow id="my-objects" scale="0.2 0.2 0.2" position="0.2 0 -0.4">
+      <a-gltf-model position="-1 2.15 -2" src="#spino">
+      </a-gltf-model>
+    </a-entity>
+	</a-scene>
+
+	<div id="dom-overlay">
+    <h1>
+      V2
+    </h1>
+		<div id="dom-overlay-message">Enter AR to start.</div>
+	</div>
   
-      <!-- MARKER COINS -->
-      <a-nft type="nft" url="/nfts/coinsTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-        <a-entity
-            gltf-model="/models/Coins.glb"
-                scale="50 50 50"
-                position="75 100 125"
-            >
-            </a-entity>
-      </a-nft>
-  
-      <!-- VIDEO -->
-      <a-nft type="nft" url="/nfts/a-frame-logo" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-        <a-video id="penguin-sledding" src="#penguin-sledding" width="16" height="9" position="0 0 0" scale="10 10 1" rotation="-90 0 0" class="video">
-        </a-video>
-      </a-nft>
-  
-      <!-- IMAGE -->
-      <a-nft type="nft" url="/nfts/pandaMarker" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-        <a-image src="images/pandaTest.jpg" width="100" height="100" position="0 0 0" rotation="-90 0 0"></a-image>
-      </a-nft>
-  
-      <!-- IMAGE LINK -->
-      <!-- <a-nft type="nft" url="/nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-        <a-image src="images/pandaTest.jpg" width="100" height="100" position="0 0 0" rotation="-90 0 0" id="boxTest" class="link"></a-image>
-      </a-nft> -->
-  
-    </a-scene>
-  
-  </body>
-  
-  </html>
-  
-  <!-- #region Ready-->
-    <!-- TESTE LIGHTBOX -->
-    <!-- <a-entity id="ui" position="0 0 -5">
-        <a-entity id="menu" highlight>
-          <a-entity id="karigurashiButton" position="0 0 0" mixin="frame" class="raycastable menu-button">
-            <a-entity material="src: #karigurashiPoster;" mixin="poster"></a-entity>
-          </a-entity>
-        </a-entity>
-  
-        <a-entity
-          id="infoPanel"
-          position="0 0 0.1"
-          info-panel
-          visible="false"
-          scale="0.001 0.001 0.001"
-          geometry="primitive: plane; width: 1.5; height: 1.8"
-          material="color: #333333; shader: flat; transparent: false" class="raycastable">
-          <a-text value="Hello, World!"></a-text>
-          <a-entity id="karigurashiMovieImage" mixin="movieImage" material="src: #karigurashi" visible="false"></a-entity>
-          <a-entity id="movieTitle"
-            position="-0.68 -0.1 0"
-            text="shader: msdf; anchor: left; width: 1.5; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Ponyo (2003)"></a-entity>
-          <a-entity id="movieDescription"
-            position="-0.68 -0.2 0"
-            text="baseline: top; shader: msdf; anchor: left; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."></a-entity>
-        </a-entity>
-      </a-entity> -->
-  
-  <!-- #endregion -->
+</body>
+
+</html>
