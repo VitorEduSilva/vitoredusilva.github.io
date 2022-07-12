@@ -5,11 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>WebXR Test</title>
     <!-- import aframe and then ar.js with image tracking / location based features -->
-    <script src="./js/aframe.min.js"></script>
+    <script src="js/aframe.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script> -->
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <!-- <script src="js/aframe-ar-nft.js"></script> -->
     <script src="https://unpkg.com/aframe-environment-component@1.3.0/dist/aframe-environment-component.min.js"></script>
-    <script src="./js/aframe-event-set-component.min.js"></script>
-    <!-- <script src="./js/ar-logic.js"></script> -->
+    <script src="js/aframe-event-set-component.min.js"></script>
+    <!-- <script src="js/ar-logic.js"></script> -->
     <script src="src/main.js"></script>
   
     <!-- style for the loader -->
@@ -38,52 +40,56 @@
   <body style="margin : 0px; overflow: hidden;">
   
     <!-- minimal loader shown until image descriptors are loaded. Loading may take a while according to the device computational power -->
-    <!-- <div class="arjs-loader">
+    <div class="arjs-loader">
       <div>Loading, please wait...</div>
-    </div> -->
+    </div>
   
     <!--Version 15-->
     <a-scene vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded
     arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
     cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .raycastable">
   
-      <!-- a-nft is the anchor that defines an Image Tracking entity -->
-      <!-- on 'url' use the path to the Image Descriptors created before. -->
-      <!-- the path should end with the name without the extension e.g. if file is trex.fset' the path should end with trex -->
-  
-      <!-- Using the asset management system. -->
+
       <a-assets>
-        <video id="penguin-sledding" loop="true" src="/videos/videoTest.mp4"></video>
-        <img id="imageLink" src="/images/pandaTest.jpg">
-        <!-- <img id="karigurashi" src="https://cdn.aframe.io/examples/ui/karigurashi.jpg" crossorigin="anonymous"/>
-          <img id="karigurashiPoster" src="https://cdn.aframe.io/examples/ui/karigurashiPoster.jpg" crossorigin="anonymous"/>
-          <a-mixin
-            id="frame"
-            geometry="primitive: plane; width: 0.5783552; height: 0.8192"
-            material="color: white; shader: flat"
-            animation__scale="property: scale; to: 1.2 1.2 1.2; dur: 200; startEvents: mouseenter"
-            animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"
-           ></a-mixin>
-           <a-mixin
-            id="poster"
-            geometry="primitive: plane; width: 0.544768; height: 0.786432"
-            material="color: white; shader: flat"
-            material="shader: flat"
-            position="0 0 0.005"
-           ></a-mixin>
-           <a-mixin
-            id="movieImage"
-            geometry="primitive: plane; width: 1.5; height: 0.81"
-            material="src: #ponyo; shader: flat; transparent: true"
-            position="0 0.495 0.002"
-           ></a-mixin> -->
+        <video id="penguin-sledding" loop="true" src="videos/videoTest.mp4"></video>
+        <img id="imageLink" src="images/pandaTest.jpg">
       </a-assets>
   
-      <a-box position="0 -1 -5" scale="1 1 1" color="blue"></a-box>
-      <a-entity camera look-controls="touchEnabled: false;"></a-entity>
+      <a-entity id="camera" camera="userHeight: 1.6" look-controls="touchEnabled: true; mouseEnabled: false"></a-entity>
+
+       <!-- MARKER DINO -->
+      <!-- <a-nft type="nft" url="nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
+        <a-entity
+            gltf-model="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
+                scale="3 3 3"
+                position="100 100 -50"
+            >
+            </a-entity>
+      </a-nft> -->
+  
+      <!-- MARKER COINS -->
+      <!-- <a-nft type="nft" url="nfts/coinsTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
+        <a-entity
+            gltf-model="models/Coins.glb"
+                scale="50 50 50"
+                position="75 100 125"
+            >
+            </a-entity>
+      </a-nft> -->
+  
+      <!-- VIDEO -->
+      <a-nft type="nft" url="nfts/playButton" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
+        <a-video id="penguin-sledding" src="#penguin-sledding" width="16" height="9" position="40 0 -40" scale="5 5 1" rotation="-90 0 0" class="video">
+        </a-video>
+      </a-nft>
+  
+      <!-- IMAGE -->
+      <a-nft type="nft" url="nfts/pandaMarker" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
+        <a-image src="images/pandaTest.jpg" width="100" height="100" position="40 0 -40" rotation="-90 0 0"></a-image>
+      </a-nft>
   
     </a-scene>
   
   </body>
   
-</html>
+  </html>
