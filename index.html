@@ -5,11 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>WebXR Test</title>
     <!-- import aframe and then ar.js with image tracking / location based features -->
-    <script src="./js/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script src="js/aframe.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script> -->
+    <!-- <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script> -->
+    <script src="js/aframe-ar-nft.js"></script>
     <script src="https://unpkg.com/aframe-environment-component@1.3.0/dist/aframe-environment-component.min.js"></script>
-    <script src="./js/aframe-event-set-component.min.js"></script>
-    <script src="./js/ar-logic.js"></script>
+    <script src="js/aframe-event-set-component.min.js"></script>
+    <script src="js/ar-logic.js"></script>
     <script src="src/main.js"></script>
   
     <!-- style for the loader -->
@@ -47,11 +49,7 @@
     arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
     cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .raycastable">
   
-      <!-- a-nft is the anchor that defines an Image Tracking entity -->
-      <!-- on 'url' use the path to the Image Descriptors created before. -->
-      <!-- the path should end with the name without the extension e.g. if file is trex.fset' the path should end with trex -->
-  
-      <!-- Using the asset management system. -->
+
       <a-assets>
         <video id="penguin-sledding" loop="true" src="videos/videoTest.mp4"></video>
         <img id="imageLink" src="images/pandaTest.jpg">
@@ -60,14 +58,14 @@
       <a-entity id="camera" camera="userHeight: 1.6" look-controls="touchEnabled: true; mouseEnabled: false"></a-entity>
 
        <!-- MARKER DINO -->
-      <!-- <a-nft type="nft" url="nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
+      <a-nft type="nft" url="nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
         <a-entity
             gltf-model="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
                 scale="3 3 3"
                 position="100 100 -50"
             >
             </a-entity>
-      </a-nft> -->
+      </a-nft>
   
       <!-- MARKER COINS -->
       <a-nft type="nft" url="nfts/coinsTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
@@ -80,20 +78,15 @@
       </a-nft>
   
       <!-- VIDEO -->
-      <!-- <a-nft type="nft" url="nfts/a-frame-logo" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-        <a-video id="penguin-sledding" src="#penguin-sledding" width="16" height="9" position="0 0 0" scale="10 10 1" rotation="-90 0 0" class="video">
+      <a-nft type="nft" url="nfts/playButton" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
+        <a-video id="penguin-sledding" src="#penguin-sledding" width="16" height="9" position="40 0 -40" scale="5 5 1" rotation="-90 0 0" class="video">
         </a-video>
-      </a-nft> -->
+      </a-nft>
   
       <!-- IMAGE -->
-      <!-- <a-nft type="nft" url="nfts/pandaMarker" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-        <a-image src="images/pandaTest.jpg" width="100" height="100" position="0 0 0" rotation="-90 0 0"></a-image>
-      </a-nft> -->
-  
-      <!-- IMAGE LINK -->
-      <!-- <a-nft type="nft" url="nfts/dinoTest" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-        <a-image src="images/pandaTest.jpg" width="100" height="100" position="0 0 0" rotation="-90 0 0" id="boxTest" class="link"></a-image>
-      </a-nft> -->
+      <a-nft type="nft" url="nfts/pandaMarker" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
+        <a-image src="images/pandaTest.jpg" width="100" height="100" position="40 0 -40" rotation="-90 0 0"></a-image>
+      </a-nft>
   
     </a-scene>
   
