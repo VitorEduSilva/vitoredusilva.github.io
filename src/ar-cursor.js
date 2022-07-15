@@ -6,6 +6,13 @@
       dependencies: ["raycaster"],
       init() {
         const sceneEl = this.el;
+        
+        // sceneEl.addEventListener(
+        //   "ar-hit-test-achieved",
+        //   this.onselect.bind(this),
+        //   { once: true }
+        // );
+
         sceneEl.addEventListener("enter-vr", () => {
           if (sceneEl.is("ar-mode")) {
             sceneEl.xrSession.addEventListener("select", this.onselect.bind(this));

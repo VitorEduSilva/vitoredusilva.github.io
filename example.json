@@ -1,0 +1,19 @@
+{
+    "artype": "gyro",
+    "marker": {
+        "image":"URL imagem",
+        "video":"URL video",
+        "glb": "URL GLB",
+        "audio":"URL mp3"
+    },
+    "glb": "URL GLB",
+    "image": "URL imagem",
+    "video": "URL mp4",
+    "audio": "URL mp3",
+    "lightbox": "URL",
+    "lightbox_label": "Label do botão que abre o lightbox",
+    "link": "URL a ser aberta na mesma janela",
+    "link_label": "Label do botão que abre o link",
+    "rgb_bg": "#0000ff",
+    "rgb_fonts": "#00ff00"
+  }
