@@ -83,6 +83,8 @@ window.addEventListener("DOMContentLoaded", function () {
 
             if(artype != "plane") return;
 
+            message.style = "color: white";
+
             // Hit testing is available
             this.addEventListener(
                 "ar-hit-test-start",

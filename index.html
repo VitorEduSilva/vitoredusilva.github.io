@@ -16,7 +16,6 @@
   
   <!-- SCRIPTS PARA HIT TEST -->
   <script src="./src/ar-shadow-helper.js"></script>
-  <script src="./js/ar-logic.js"></script>
   <script src="./src/main.js"></script>
 
   <!-- <script src="./src/getRequest.js"></script> -->
@@ -52,8 +51,8 @@
       right: 0;
       padding: 1em;
       /* background: #33333355; */
-      border-top: 5px solid #ffffff55;
-      color: white;
+      /* border-top: 5px solid #ffffff55; */
+      color: black;
       font-weight: bold;
     }
 
@@ -77,7 +76,7 @@
 
   <!-- MODICAR RENDERER PARA FALSE PARA QUE OS TEXTOS DA LIGHTBOX APAREÇAM NA TELA -->
   <a-scene webxr="overlayElement:#dom-overlay;" vr-mode-ui="enabled: true;" renderer="logarithmicDepthBuffer: true;" embedded
-    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" raycaster="objects: .raycastable" ar-cursor
+    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" raycaster="objects: .raycastable"
     ar-hit-test="target:#my-objects;type:footprint;footprintDepth:0.2;"
     shadow="type: pcfsoft">
 
