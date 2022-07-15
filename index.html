@@ -16,6 +16,7 @@
   
   <!-- SCRIPTS PARA HIT TEST -->
   <script src="./src/ar-shadow-helper.js"></script>
+  <script src="./src/ar-cursor.js"></script>
   <script src="./src/main.js"></script>
 
   <!-- <script src="./src/getRequest.js"></script> -->
@@ -75,8 +76,8 @@
   </div>
 
   <!-- MODICAR RENDERER PARA FALSE PARA QUE OS TEXTOS DA LIGHTBOX APAREÇAM NA TELA -->
-  <a-scene webxr="overlayElement:#dom-overlay;" vr-mode-ui="enabled: true;" renderer="logarithmicDepthBuffer: true;"
-    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" raycaster="objects: .raycastable"
+  <a-scene webxr="overlayElement:#dom-overlay;" vr-mode-ui="enabled: true;"
+    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" raycaster="objects: .raycastable" 
     ar-hit-test="target:#my-objects;type:footprint;footprintDepth:0.2;"
     shadow="type: pcfsoft">
 
@@ -86,22 +87,13 @@
       <a-asset-item id="spino"
         src="https://rawcdn.githack.com/krlosflip22/aframe-ar-sample/c91a7a9dd8b1428bc8e68bc1b5d8641d7241fd1b/spinosaurus.glb">
       </a-asset-item>
-      <!--
-          Image source: http://www.ghibli.jp/works/kazetachinu/#frame&gid=1&pid=1
-          Image author: Studio Ghibli
-        -->
+      
         <img id="kazetachinu" src="https://cdn.aframe.io/examples/ui/kazetachinu.jpg" crossorigin="anonymous"/>
         <img id="kazetachinuPoster" src="https://cdn.aframe.io/examples/ui/kazetachinuPoster.jpg" crossorigin="anonymous"/>
-        <!--
-          Image source: http://www.ghibli.jp/works/ponyo/#frame&gid=1&pid=36
-          Image author: Studio Ghibli
-        -->
+        
         <img id="ponyo" src="https://cdn.aframe.io/examples/ui/ponyo.jpg" crossorigin="anonymous"/>
         <img id="ponyoPoster" src="https://cdn.aframe.io/examples/ui/ponyoPoster.jpg" crossorigin="anonymous"/>
-        <!--
-          Image source: http://www.ghibli.jp/works/karigurashi/#frame&gid=1&pid=32
-          Image author: Studio Ghibli
-        -->
+        
         <img id="karigurashi" src="https://cdn.aframe.io/examples/ui/karigurashi.jpg" crossorigin="anonymous"/>
         <img id="karigurashiPoster" src="https://cdn.aframe.io/examples/ui/karigurashiPoster.jpg" crossorigin="anonymous"/>
         <a-mixin
@@ -132,7 +124,7 @@
     </a-entity>
 
     <a-entity id="gyroContainer" visible = "true">
-      <!-- <a-box position="0 -1 -5" scale="1 1 1" color="blue"></a-box> -->
+      <a-box position="0 -1 -5" scale="1 1 1" color="blue"></a-box>
     </a-entity>
 
     <a-entity id="lightBoxContainer" visible = "true">      
