@@ -1,8 +1,11 @@
+let sceneEl;
+
 let gyroContainer;
 let hitTestContainer;
 let markersContainer;
 let lightBoxContainer;
 let gaze;
+
 
 // fetch("../example.json").then(response => {
 //     return response.json();
@@ -11,6 +14,7 @@ let gaze;
 const queryString = window.location.search;
 
 let urlParams = new URLSearchParams(queryString);
+let artype;
 
 function setPageContent() {
     gyroContainer.setAttribute('visible', false);
@@ -23,7 +27,7 @@ function setPageContent() {
     let markerLoader = document.getElementById("arjs-loader");
     markerLoader.style = "display: none";
     
-    let artype = urlParams.get('artype');
+    artype = urlParams.get('artype');
     
     switch (artype) {
         case "gyro":
@@ -40,6 +44,7 @@ function setPageContent() {
 
         case "lightbox":
             lightBoxContainer.setAttribute('visible', true);
+            sceneEl.setAttribute('logarithmicDepthBuffer', false);
             gaze.setAttribute('visible', true);
             break;
     }
@@ -58,7 +63,8 @@ AFRAME.registerComponent("hide-on-hit-test-start", {
 });
 
 window.addEventListener("DOMContentLoaded", function () {
-    const sceneEl = document.querySelector("a-scene");
+    sceneEl = document.querySelector("a-scene");
+    const message = document.getElementById("dom-overlay-message");
 
     gyroContainer = document.querySelector("#gyroContainer");
     hitTestContainer = document.querySelector("#hitTestContainer");
@@ -73,11 +79,15 @@ window.addEventListener("DOMContentLoaded", function () {
         if (this.is("ar-mode")) {
             // Entered AR
 
+            message.innerHTML = ``;
+
+            if(artype != "plane") return;
+
             // Hit testing is available
             this.addEventListener(
                 "ar-hit-test-start",
-                function () {
-
+                function () {                            
+                    message.innerHTML = `Procurando superfície`;
                 },
                 { once: true }
             );
@@ -86,7 +96,7 @@ window.addEventListener("DOMContentLoaded", function () {
             this.addEventListener(
                 "ar-hit-test-achieved",
                 function () {
-
+                    message.innerHTML = `Pressione a tela para posicionar o objeto`;
                 },
                 { once: true }
             );
@@ -95,7 +105,7 @@ window.addEventListener("DOMContentLoaded", function () {
             this.addEventListener(
                 "ar-hit-test-select",
                 function () {
-
+                    message.innerHTML = ``;
                 },
                 { once: true }
             );

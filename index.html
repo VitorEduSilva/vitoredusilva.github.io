@@ -44,6 +44,28 @@
       font-size: 1.25em;
       color: white;
     }
+
+    #dom-overlay-message {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      padding: 1em;
+      /* background: #33333355; */
+      border-top: 5px solid #ffffff55;
+      color: white;
+      font-weight: bold;
+    }
+
+    .a-dom-overlay button {
+      padding: 1em;
+      appearance: none;
+      background: #00000055;
+      border: 3px solid white;
+      border-radius: 1em;
+      margin: 1em 1em 0 0;
+      color: white;
+    }
   </style>
 </head>
 
@@ -54,7 +76,7 @@
   </div>
 
   <!-- MODICAR RENDERER PARA FALSE PARA QUE OS TEXTOS DA LIGHTBOX APAREÇAM NA TELA -->
-  <a-scene vr-mode-ui="enabled: true;" renderer="logarithmicDepthBuffer: true;" embedded
+  <a-scene webxr="overlayElement:#dom-overlay;" vr-mode-ui="enabled: true;" renderer="logarithmicDepthBuffer: true;" embedded
     arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" raycaster="objects: .raycastable" ar-cursor
     ar-hit-test="target:#my-objects;type:footprint;footprintDepth:0.2;"
     shadow="type: pcfsoft">
@@ -111,7 +133,7 @@
     </a-entity>
 
     <a-entity id="gyroContainer" visible = "true">
-      <a-box position="0 -1 -5" scale="1 1 1" color="blue"></a-box>
+      <!-- <a-box position="0 -1 -5" scale="1 1 1" color="blue"></a-box> -->
     </a-entity>
 
     <a-entity id="lightBoxContainer" visible = "true">      
@@ -206,6 +228,11 @@
     </div> -->
 
     </a-entity>
+  </a-scene>
+
+  <div id="dom-overlay"> 
+		<div id="dom-overlay-message">Aperte em AR para começar</div>
+	</div>
 
 </body>
 
